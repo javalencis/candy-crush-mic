@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Lexend", sans-serif;
 }
 
 body {
@@ -62,6 +63,10 @@ body {
 .container-info-mobile {
     display: none;
 }
+.info-score{
+    display: flex;
+    gap: 5px;
+}
 
 @media (max-width: 930px) {
     body {
@@ -105,18 +110,19 @@ body {
     
         border-radius: 20px;
     }
+    
 }
 
 @media (max-width:600px) {
     .overlay-info img{
-        width: 80%;
+        width: 86%;
     }
 }
 
 
 @media (max-width:480px) {
     canvas{
-        width: 85%;
+
     }   
     .info-time{
         width: 85%;

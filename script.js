@@ -5,11 +5,13 @@ const btPlay = document.querySelector('.bt-play')
 const btPlayMob = document.querySelector('.bt-play-mob')
 const overlayInfo = document.querySelector('.overlay-info')
 const infoTime = document.querySelector('.info-time')
-canvas.width = 416;
-canvas.height = 416;
+const timeVar = document.querySelectorAll('.time-var')
+const infoScore  = document.querySelectorAll('.score')
+canvas.width = 364;
+canvas.height = 364;
 
-const rows = 8;
-const cols = 8;
+const rows = 7;
+const cols = 7;
 const tileSize = 52;
 let score = 0;
 let board = [];
@@ -21,6 +23,8 @@ let dragOffset = { x: 0, y: 0 };
 let currentDragPos = { x: 0, y: 0 };
 let dragDirection = null; 
 let gameStarted = false;
+let countdownTime = 60; 
+let countdownInterval = null; 
 
 const images = [];
 const imagePaths = [
@@ -84,7 +88,7 @@ function drawBoard() {
 function drawTile(row, col, type, offsetY = 0) {
     if (type !== null) {
         const img = images[type];
-        ctx.drawImage(img, col * tileSize, row * tileSize + offsetY, tileSize-5, tileSize-5);
+        ctx.drawImage(img, col * tileSize, row * tileSize + offsetY, tileSize-4, tileSize-4);
     }
 }
 
@@ -129,7 +133,9 @@ function detectCombinations() {
 function removeCombinations(toRemove) {
     toRemove.forEach(pos => {
         board[pos.r][pos.c] = null; // Marcar la pieza como eliminada
-        score += 10;
+        score++
+        infoScore[0].innerHTML = score
+        infoScore[1].innerHTML = score
     });
 }
 function animateDropTiles(callback) {
@@ -297,8 +303,21 @@ function animateSwap(tile1, tile2, callback) {
 //         }
 //     });
 // }
-
-
+function startCountdown() {
+    countdownInterval = setInterval(() => {
+        countdownTime--;
+        
+        timeVar[0].innerHTML = countdownTime
+        timeVar[1].innerHTML = countdownTime
+        if (countdownTime <= 0) {
+            clearInterval(countdownInterval);
+            endGame(); // Llamar a una función que finalice el juego
+        }
+    }, 1000); // Actualizar cada segundo
+}
+function endGame() {
+    gameStarted = false; // Detener el juego
+}
 function playGame(){
 
     if(gameStarted) return
@@ -310,6 +329,8 @@ function playGame(){
         // Aquí se detectan combinaciones después de la primera caída
         processAfterDrop();
     });
+    countdownTime = 60
+    startCountdown()
 }
 
 function playGameMob(){
@@ -359,7 +380,25 @@ function handleTouchEnd(e) {
         dragging = false;
 
         // Verificar si es un movimiento válido (adyacente)
-        if (Math.abs(dragStart.r - dragEnd.r) + Math.abs(dragStart.c - dragEnd.c) === 1) {
+        // if (Math.abs(dragStart.r - dragEnd.r) + Math.abs(dragStart.c - dragEnd.c) <=2) {
+        //     swapTiles(dragStart, dragEnd);
+        // }
+        if (dragStart && dragEnd) {
+            const rowDiff = dragEnd.r - dragStart.r;
+            const colDiff = dragEnd.c - dragStart.c;
+
+            // Verificar si el movimiento es principalmente vertical u horizontal
+            if (Math.abs(rowDiff) > Math.abs(colDiff)) {
+                // Movimiento vertical: Forzar intercambio con el dulce adyacente en la fila
+                dragEnd.r = dragStart.r + Math.sign(rowDiff); // Limitar a la fila adyacente
+                dragEnd.c = dragStart.c; // Mantener la columna igual
+            } else {
+                // Movimiento horizontal: Forzar intercambio con el dulce adyacente en la columna
+                dragEnd.c = dragStart.c + Math.sign(colDiff); // Limitar a la columna adyacente
+                dragEnd.r = dragStart.r; // Mantener la fila igual
+            }
+
+            // Realizar el intercambio solo con el dulce adyacente inmediato
             swapTiles(dragStart, dragEnd);
         }
     }
