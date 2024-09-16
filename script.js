@@ -9,9 +9,10 @@ const overlayInfo = document.querySelector('.overlay-info')
 const infoTime = document.querySelector('.info-time')
 const timeVar = document.querySelectorAll('.time-var')
 const infoScore  = document.querySelectorAll('.score')
-const textCupon = document.querySelector('.text-cupon')
-const cupon = document.querySelector('.end-cupon')
-const contentCupon = document.querySelector('.content-cupon')
+const textCupon = document.querySelectorAll('.text-cupon')
+const cupon = document.querySelectorAll('.end-cupon')
+const contentCupon = document.querySelectorAll('.content-cupon')
+const pCheck = document.querySelectorAll('.pCheck')
 
 canvas.width = 364;
 canvas.height = 364;
@@ -327,26 +328,40 @@ function endGame() {
     overlayInfo.style.display ="flex"
     console.log(msnCupon[3].msn);
     if(score>=100){
-        textCupon.innerHTML = msnCupon[0].msn
-        cupon.innerHTML = msnCupon[0].cupon
-        contentCupon.style.display = 'flex'
+        for(let i = 0; i < 2; i++){
+            textCupon[i].innerHTML = msnCupon[0].msn
+            cupon[i].innerHTML = msnCupon[0].cupon
+            contentCupon[i].style.display = 'flex'
+
+        }
     }else if(score >= 80){
-        textCupon.innerHTML = msnCupon[1].msn
-        cupon.innerHTML = msnCupon[1].cupon
-         contentCupon.style.display = 'flex'
+        for(let i = 0; i < 2; i++){
+            textCupon[i].innerHTML = msnCupon[1].msn
+            cupon[i].innerHTML = msnCupon[1].cupon
+            contentCupon[i].style.display = 'flex'
+
+        }
     }else if(score >= 60){
-        textCupon.innerHTML = msnCupon[2].msn
-        cupon.innerHTML = msnCupon[2].cupon
-         contentCupon.style.display = 'flex'
+        for(let i = 0; i < 2; i++){
+            textCupon[i].innerHTML = msnCupon[2].msn
+            cupon[i].innerHTML = msnCupon[2].cupon
+            contentCupon[i].style.display = 'flex'
+
+        }
     }else{
-        textCupon.innerHTML = msnCupon[3].msn
-        cupon.innerHTML = msnCupon[3].cupon
+        for(let i = 0; i < 2; i++){
+            textCupon[i].innerHTML = msnCupon[3].msn
+            cupon[i].innerHTML = msnCupon[4].cupon
+
+
+        }
     }
 }
 function playGame(){
 
     if(gameStarted) return
-    
+    pCheck[0].style.display = 'none'
+    pCheck[1].style.display = 'none'
     gameStarted = true;
     let toRemove = detectCombinations();
     removeCombinations(toRemove)
@@ -355,6 +370,9 @@ function playGame(){
         processAfterDrop();
     });
     countdownTime = 60
+    score = 0
+    infoScore[0].innerHTML = score
+    infoScore[1].innerHTML = score
     startCountdown()
 }
 
@@ -463,9 +481,9 @@ canvas.addEventListener('mouseup', (e) => {
         }
     }
 });
-contentCupon.addEventListener('click', () => {
+contentCupon[0].addEventListener('click', () => {
 
-    let text = cupon.innerHTML;
+    let text = cupon[0].innerHTML;
 
     const tempInput = document.createElement('input');
     tempInput.setAttribute("value", text);
@@ -473,9 +491,28 @@ contentCupon.addEventListener('click', () => {
     tempInput.select();
     document.execCommand('copy');
     document.body.removeChild(tempInput);
-    pCheck.style.display = 'block'
+    pCheck[0].style.display = 'block'
+    pCheck[1].style.display = 'block'
 
 })
+contentCupon[1].addEventListener('click', () => {
+
+    let text = cupon[1].innerHTML;
+
+    const tempInput = document.createElement('input');
+    tempInput.setAttribute("value", text);
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    pCheck[0].style.display = 'block'
+
+    pCheck[1].style.display = 'block'
+
+
+
+})
+
 
 // Agregar los eventos táctiles
 canvas.addEventListener('touchstart', handleTouchStart);

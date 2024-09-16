@@ -82,14 +82,14 @@ body {
 .content-cupon {
     border: 1px solid rgb(255, 255, 255);
     padding: 8px 16px;
-    margin: 20px auto;
+    margin: 5px auto;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     max-width: max-content;
-    font-size: 20px;
+    font-size: 16px;
     border-radius: 6px;
 }
 .content-cupon{
@@ -102,7 +102,7 @@ body {
 
         right: 0;
         margin-top: 40px;
-        font-size: 18px;
+        font-size: 16px;
         padding: 10px;
     }
 }
