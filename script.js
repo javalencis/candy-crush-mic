@@ -1,3 +1,5 @@
+import { msnCupon } from "./src/msnCupon.js";
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -7,6 +9,10 @@ const overlayInfo = document.querySelector('.overlay-info')
 const infoTime = document.querySelector('.info-time')
 const timeVar = document.querySelectorAll('.time-var')
 const infoScore  = document.querySelectorAll('.score')
+const textCupon = document.querySelector('.text-cupon')
+const cupon = document.querySelector('.end-cupon')
+const contentCupon = document.querySelector('.content-cupon')
+
 canvas.width = 364;
 canvas.height = 364;
 
@@ -312,11 +318,30 @@ function startCountdown() {
         if (countdownTime <= 0) {
             clearInterval(countdownInterval);
             endGame(); // Llamar a una función que finalice el juego
+            
         }
     }, 1000); // Actualizar cada segundo
 }
 function endGame() {
     gameStarted = false; // Detener el juego
+    overlayInfo.style.display ="flex"
+    console.log(msnCupon[3].msn);
+    if(score>=100){
+        textCupon.innerHTML = msnCupon[0].msn
+        cupon.innerHTML = msnCupon[0].cupon
+        contentCupon.style.display = 'flex'
+    }else if(score >= 80){
+        textCupon.innerHTML = msnCupon[1].msn
+        cupon.innerHTML = msnCupon[1].cupon
+         contentCupon.style.display = 'flex'
+    }else if(score >= 60){
+        textCupon.innerHTML = msnCupon[2].msn
+        cupon.innerHTML = msnCupon[2].cupon
+         contentCupon.style.display = 'flex'
+    }else{
+        textCupon.innerHTML = msnCupon[3].msn
+        cupon.innerHTML = msnCupon[3].cupon
+    }
 }
 function playGame(){
 
@@ -379,7 +404,7 @@ function handleTouchEnd(e) {
         dragEnd = { r: y, c: x };
         dragging = false;
 
-        // Verificar si es un movimiento válido (adyacente)
+       
         // if (Math.abs(dragStart.r - dragEnd.r) + Math.abs(dragStart.c - dragEnd.c) <=2) {
         //     swapTiles(dragStart, dragEnd);
         // }
@@ -438,6 +463,19 @@ canvas.addEventListener('mouseup', (e) => {
         }
     }
 });
+contentCupon.addEventListener('click', () => {
+
+    let text = cupon.innerHTML;
+
+    const tempInput = document.createElement('input');
+    tempInput.setAttribute("value", text);
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    pCheck.style.display = 'block'
+
+})
 
 // Agregar los eventos táctiles
 canvas.addEventListener('touchstart', handleTouchStart);

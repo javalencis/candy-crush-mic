@@ -5,22 +5,37 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Juego Tipo Candy Crush</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+            rel="stylesheet"
+        />
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
         <div class="container-info">
             <div>
-
                 <img src="./assets/imgs/bginfo.jpg" alt="" />
+                <div class="info-text">
+                    <div class="container-text">
+                        <p class="text-cupon">
+                            Consigue la mayor puntuación posible antes de que termine el tiempo y gana beneficios.</p>
+                        <div class="content-cupon">
+                            <p class="end-cupon">10CUPON</p>
+                            <span
+                                ><img src="./assets/imgs/copy.png" alt=""
+                            /></span>
+                        </div>
+                        <p class="pCheck"></p>
+                    </div>
+                </div>
                 <div class="info-logo">
                     <img src="./assets/imgs/logo.png" alt="" />
                 </div>
                 <div class="info-time">
                     <div class="info-score">
-                        <p>Puntaje: </p>
+                        <p>Puntaje:</p>
                         <p class="score">0</p>
                     </div>
                     <div class="time">
@@ -37,7 +52,7 @@
             </div>
             <div class="info-time">
                 <div class="info-score">
-                    <p>Puntaje: </p>
+                    <p>Puntaje:</p>
                     <p class="score">0</p>
                 </div>
                 <div class="time">
@@ -46,11 +61,23 @@
                 </div>
             </div>
             <div class="overlay-info">
-                <img src="./assets/imgs/bginfo.jpg" alt="" />
+                <div class="info-text">
+                    <img src="./assets/imgs/bginfo.jpg" alt="" />
+                    <div class="container-text">
+                        <p class="text-cupon">Texto</p>
+                        <div class="content-cupon">
+                            <p class="end-cupon">10CUPON</p>
+                            <span
+                                ><img src="./assets/imgs/copy.png" alt=""
+                            /></span>
+                        </div>
+                        <p class="pCheck"></p>
+                    </div>
+                </div>
                 <button class="bt-play-mob">Jugar</button>
             </div>
         </div>
         <canvas id="gameCanvas"></canvas>
-        <script src="script.js"></script>
+        <script type="module" src="script.js"></script>
     </body>
 </html>
