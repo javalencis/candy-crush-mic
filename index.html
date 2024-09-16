@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="container-info">
-            <div class="">
+            <div>
 
                 <img src="./assets/imgs/bginfo.jpg" alt="" />
                 <div class="info-logo">
@@ -26,7 +26,26 @@
                     </div>
                 </div>
             </div>
-            <button id="bt-play">Jugar</button>
+            <button class="bt-play">Jugar</button>
+        </div>
+        <div class="container-info-mobile">
+            <div class="info-logo">
+                <img src="./assets/imgs/logo.png" alt="" />
+            </div>
+            <div class="info-time">
+                <div class="info-score">
+                    <p>Puntaje: </p>
+                    <p class="score"></p>
+                </div>
+                <div class="time">
+                    <p>Tiempo:</p>
+                    <p class="time-var">0:0</p>
+                </div>
+            </div>
+            <div class="overlay-info">
+                <img src="./assets/imgs/bginfo.jpg" alt="" />
+                <button class="bt-play-mob">Jugar</button>
+            </div>
         </div>
         <canvas id="gameCanvas"></canvas>
         <script src="script.js"></script>

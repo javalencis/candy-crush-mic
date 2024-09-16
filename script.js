@@ -1,8 +1,10 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-const btPlay = document.getElementById('bt-play')
-
+const btPlay = document.querySelector('.bt-play')
+const btPlayMob = document.querySelector('.bt-play-mob')
+const overlayInfo = document.querySelector('.overlay-info')
+const infoTime = document.querySelector('.info-time')
 canvas.width = 416;
 canvas.height = 416;
 
@@ -298,15 +300,25 @@ function animateSwap(tile1, tile2, callback) {
 
 
 function playGame(){
+
     if(gameStarted) return
-    gameStarted = true;
     
+    gameStarted = true;
     let toRemove = detectCombinations();
     removeCombinations(toRemove)
     animateDropTiles(() => {
         // Aquí se detectan combinaciones después de la primera caída
         processAfterDrop();
     });
+}
+
+function playGameMob(){
+    if(overlayInfo){
+        overlayInfo.style.display = 'none'
+
+    }
+
+    playGame()
 }
 
 
@@ -393,6 +405,8 @@ canvas.addEventListener('touchstart', handleTouchStart);
 canvas.addEventListener('touchmove', handleTouchMove);
 canvas.addEventListener('touchend', handleTouchEnd);
 btPlay.addEventListener('click',playGame)
+btPlayMob.addEventListener('click',playGameMob)
+
 // Función para inicializar el juego
 function initGame() {
     loadImages().then((loadedImages) => {

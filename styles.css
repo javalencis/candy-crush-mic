@@ -1,5 +1,5 @@
 /* styles.css */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -12,48 +12,44 @@ body {
     align-items: center;
     height: 100vh;
     gap: 50px;
-    background-image: url('./assets/imgs/bgdesktop.jpg');
+    background-image: url("./assets/imgs/bgdesktop.jpg");
 }
-.container-info{
+.container-info {
     position: relative;
- 
+
     width: 400px;
     text-align: center;
-
 }
 
-.container-info img{
+.container-info img {
     width: 100%;
     border-radius: 20px;
 }
-.info-logo{
+.info-logo {
     position: absolute;
     top: -20%;
     left: 50px;
     width: 300px;
 }
-.info-logo img{
-    width:100% ;
-    
+.info-logo img {
+    width: 100%;
 }
-.info-time{
-    
+.info-time {
     background-color: #fff;
     display: flex;
     justify-content: space-between;
     font-size: 20px;
     padding: 10px 20px;
     border-radius: 10px;
-    
-    
 }
 
-.info-time .time{
+.info-time .time {
     display: flex;
     gap: 5px;
 }
 
-.container-info button{
+.bt-play, 
+.bt-play-mob{
     background-color: #fef431;
     font-size: 20px;
     padding: 8px 32px;
@@ -61,10 +57,68 @@ body {
     margin-top: 20px;
     font-weight: bold;
     cursor: pointer;
+    border: 1px solid #fff;
+}
+.container-info-mobile {
+    display: none;
 }
 
-@media (max-width:930px) {
-    body{
+@media (max-width: 930px) {
+    body {
         flex-direction: column;
+    }
+    .container-info {
+        display: none;
+    }
+    .container-info-mobile {
+        display: block;
+        width: 100%;
+    }
+    .info-logo {
+        position: relative;
+        margin: 0 auto;
+        top: 0;
+        left: 0;
+        margin-bottom: 24px;
+        z-index: 20;
+    }
+    .info-time {
+        width: 416px;
+        margin: 0 auto;
+
+    }
+    .overlay-info {
+        position: absolute;
+        background-color: #0000007a;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 10;
+    }
+
+    .overlay-info img {
+    
+        border-radius: 20px;
+    }
+}
+
+@media (max-width:600px) {
+    .overlay-info img{
+        width: 80%;
+    }
+}
+
+
+@media (max-width:480px) {
+    canvas{
+        width: 85%;
+    }   
+    .info-time{
+        width: 85%;
     }
 }
