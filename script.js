@@ -1,12 +1,14 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = 800;
-canvas.height = 600;
+const btPlay = document.getElementById('bt-play')
+
+canvas.width = 416;
+canvas.height = 416;
 
 const rows = 8;
 const cols = 8;
-const tileSize = 64;
+const tileSize = 52;
 let score = 0;
 let board = [];
 let animations = [];
@@ -16,6 +18,7 @@ let dragEnd = null;
 let dragOffset = { x: 0, y: 0 };
 let currentDragPos = { x: 0, y: 0 };
 let dragDirection = null; 
+let gameStarted = false;
 
 const images = [];
 const imagePaths = [
@@ -58,13 +61,19 @@ function drawBoard() {
             if (dragging && dragStart && r === dragStart.r && c === dragStart.c) {
                 continue;
             }
-            drawTile(r, c, board[r][c]);
+            // Verificar que la imagen exista antes de dibujar
+            if (images[board[r][c]]) {
+                drawTile(r, c, board[r][c]);
+            }
         }
     }
 
     if (dragging && dragStart) {
         const img = images[board[dragStart.r][dragStart.c]];
-        ctx.drawImage(img, currentDragPos.x - dragOffset.x, currentDragPos.y - dragOffset.y, tileSize, tileSize);
+        // Verificar que la imagen exista antes de dibujar
+        if (img) {
+            ctx.drawImage(img, currentDragPos.x - dragOffset.x, currentDragPos.y - dragOffset.y, tileSize, tileSize);
+        }
     }
 
     animations.forEach(anim => anim());
@@ -73,7 +82,7 @@ function drawBoard() {
 function drawTile(row, col, type, offsetY = 0) {
     if (type !== null) {
         const img = images[type];
-        ctx.drawImage(img, col * tileSize, row * tileSize + offsetY, tileSize, tileSize);
+        ctx.drawImage(img, col * tileSize, row * tileSize + offsetY, tileSize-5, tileSize-5);
     }
 }
 
@@ -118,7 +127,7 @@ function detectCombinations() {
 function removeCombinations(toRemove) {
     toRemove.forEach(pos => {
         board[pos.r][pos.c] = null; // Marcar la pieza como eliminada
-        score += 10; // Aumentar la puntuación
+        score += 10;
     });
 }
 function animateDropTiles(callback) {
@@ -287,8 +296,67 @@ function animateSwap(tile1, tile2, callback) {
 //     });
 // }
 
-// Eventos para manejar el arrastre
+
+function playGame(){
+    if(gameStarted) return
+    gameStarted = true;
+    
+    let toRemove = detectCombinations();
+    removeCombinations(toRemove)
+    animateDropTiles(() => {
+        // Aquí se detectan combinaciones después de la primera caída
+        processAfterDrop();
+    });
+}
+
+
+// Funciones para manejar eventos de dispositivos móviles
+function handleTouchStart(e) {
+    if (!gameStarted) return; 
+    e.preventDefault();
+    const touch = e.touches[0]; 
+    const rect = canvas.getBoundingClientRect(); // Obtener las posiciones correctas del canvas
+    const x = Math.floor((touch.clientX - rect.left) / tileSize);
+    const y = Math.floor((touch.clientY - rect.top) / tileSize);
+    dragStart = { r: y, c: x };
+    dragOffset = { x: (touch.clientX - rect.left) % tileSize, y: (touch.clientY - rect.top) % tileSize };
+    currentDragPos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+    dragging = true;
+}
+
+function handleTouchMove(e) {
+    if (!gameStarted) return; 
+    e.preventDefault();
+    if (dragging) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect(); // Obtener la posición correcta
+        currentDragPos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+        drawBoard(); // Redibujar el tablero
+    }
+}
+
+function handleTouchEnd(e) {
+    if (!gameStarted) return; 
+    e.preventDefault();
+    if (dragging) {
+        const touch = e.changedTouches[0];
+        const rect = canvas.getBoundingClientRect(); // Obtener la posición correcta
+        const x = Math.floor((touch.clientX - rect.left) / tileSize);
+        const y = Math.floor((touch.clientY - rect.top) / tileSize);
+        dragEnd = { r: y, c: x };
+        dragging = false;
+
+        // Verificar si es un movimiento válido (adyacente)
+        if (Math.abs(dragStart.r - dragEnd.r) + Math.abs(dragStart.c - dragEnd.c) === 1) {
+            swapTiles(dragStart, dragEnd);
+        }
+    }
+}
+
+
+// Eventos para manejar el arrastre en computadoras de escritorio
 canvas.addEventListener('mousedown', (e) => {
+    if (!gameStarted) return; 
     const x = Math.floor(e.offsetX / tileSize);
     const y = Math.floor(e.offsetY / tileSize);
     dragStart = { r: y, c: x };
@@ -298,6 +366,7 @@ canvas.addEventListener('mousedown', (e) => {
 });
 
 canvas.addEventListener('mousemove', (e) => {
+    if (!gameStarted) return; 
     if (dragging) {
         currentDragPos = { x: e.offsetX, y: e.offsetY };
         drawBoard(); // Redibujar el tablero
@@ -305,6 +374,7 @@ canvas.addEventListener('mousemove', (e) => {
 });
 
 canvas.addEventListener('mouseup', (e) => {
+    if (!gameStarted) return; 
     if (dragging) {
         const x = Math.floor(e.offsetX / tileSize);
         const y = Math.floor(e.offsetY / tileSize);
@@ -318,6 +388,11 @@ canvas.addEventListener('mouseup', (e) => {
     }
 });
 
+// Agregar los eventos táctiles
+canvas.addEventListener('touchstart', handleTouchStart);
+canvas.addEventListener('touchmove', handleTouchMove);
+canvas.addEventListener('touchend', handleTouchEnd);
+btPlay.addEventListener('click',playGame)
 // Función para inicializar el juego
 function initGame() {
     loadImages().then((loadedImages) => {
@@ -333,6 +408,9 @@ function gameLoop() {
     drawBoard();
     requestAnimationFrame(gameLoop); // Continuar el bucle de juego
 }
+
+
+
 
 // Inicializar el juego
 initGame();

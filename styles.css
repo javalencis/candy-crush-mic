@@ -1,9 +1,70 @@
 /* styles.css */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    gap: 50px;
+    background-image: url('./assets/imgs/bgdesktop.jpg');
+}
+.container-info{
+    position: relative;
+ 
+    width: 400px;
+    text-align: center;
 
+}
+
+.container-info img{
+    width: 100%;
+    border-radius: 20px;
+}
+.info-logo{
+    position: absolute;
+    top: -20%;
+    left: 50px;
+    width: 300px;
+}
+.info-logo img{
+    width:100% ;
+    
+}
+.info-time{
+    
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    
+    
+}
+
+.info-time .time{
+    display: flex;
+    gap: 5px;
+}
+
+.container-info button{
+    background-color: #fef431;
+    font-size: 20px;
+    padding: 8px 32px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width:930px) {
+    body{
+        flex-direction: column;
+    }
 }
