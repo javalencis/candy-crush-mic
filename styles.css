@@ -51,7 +51,7 @@ body {
 
 .bt-play,
 .bt-play-mob {
-    background-color: #fef431;
+    background-color: #f6f6f6;
     font-size: 20px;
     padding: 8px 32px;
     border-radius: 10px;
@@ -168,7 +168,11 @@ body {
 }
 
 @media (max-width: 480px) {
+    .text-cupon{
+        width: 290px;
+    }
     canvas {
+        width: 98%;
     }
     .info-time {
         width: 85%;
