@@ -334,14 +334,14 @@ function endGame() {
             contentCupon[i].style.display = 'flex'
 
         }
-    }else if(score >= 80){
+    }else if(score >= 60){
         for(let i = 0; i < 2; i++){
             textCupon[i].innerHTML = msnCupon[1].msn
             cupon[i].innerHTML = msnCupon[1].cupon
             contentCupon[i].style.display = 'flex'
 
         }
-    }else if(score >= 60){
+    }else if(score >= 20){
         for(let i = 0; i < 2; i++){
             textCupon[i].innerHTML = msnCupon[2].msn
             cupon[i].innerHTML = msnCupon[2].cupon
